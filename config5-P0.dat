@@ -1,0 +1,23 @@
+#-- Number of lanes
+L=5
+#-- Lambda, the avg frequence of customer arrival (per second)
+lambda=0.1
+#-- Fraction of "bad" customers among the arrivals (in [0,1] range)
+fracBad=0.2
+dAcceptable=0.75
+
+policy=PX
+
+#-- One or more screening profiles. They should be listed in the order
+#-- of increasing detection rate and decreasing average processing time.
+#-- Screening profile No. 1, with prefix "p1"
+p1.L=5
+p1.M=10
+p1.H=14
+p1.d=0.3
+
+#-- Screening profile No. 2, with prefix "p2"
+p2.L=10
+p2.M=15
+p2.H=20
+p2.d=0.8

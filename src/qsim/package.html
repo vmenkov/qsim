@@ -1,0 +1,98 @@
+<body>
+Qsim - Multiline screening simulation application
+
+<h2>User Guide</h2>
+
+<p>There are three applications included in this distribution
+<ul>
+<li>Batch simulator
+<li>GUI simulator
+<li>Arrival schedule generator
+</ul>
+
+<h3>Using the batch simulator</h3>
+
+<p><strong>With dynamic arrival generation.</strong>
+Run simulation 10 times; model described by the configuration file config10.dat; output goes to directory outx.
+
+<pre>
+java -Druns=10  -cp lib/qsim.jar qsim.Qsim config10.dat outx
+</pre>
+
+The output directory will contain 1 output file per run.
+
+If the name of the destination directory is omitted, a directory with a [nearly] unique name, such as <tt>out-qsim-2016-05-23_01-49-43</tt> will be automatically created.
+
+<pre><strong>With pre-computed arrival schedule files.</strong>
+java -Druns=5 -Darrivals=schedule-dir -cp lib/qsim.jar qsim.Qsim config10.dat outx
+</pre>
+
+<p>Here, the simulator will disregard the customer numebr (nGenMax) and the arrival rate found in the configuration file. Instead of generating the customer arrival schedule dynamically, each run will use a schedule file from the specified directory, which in this example is <tt>schedule-dir</tt>. 
+
+<p>The schedule file directory must contain at least as many schedule file as the specified number of runs. E.g. with -Druns=5, that directory must contain files named <tt>arrivals-000</tt> thru  <tt>arrivals-005</tt>. If there are more files than that, any extra files will be ignored.
+
+<p>
+<strong>Arrival schedule files.</strong>
+Files like this can be produced by the Arrvial schedule generator (see below). You can also produce them manually, e.g. with a Python or Perl script. To see the file format, run the arrival generator and take a look at the files it produces.
+
+<p>
+The file is space-separated (actually, TAB-separated, but any white space will work). The format of each line is as follows,
+<pre>
+time lane threat
+</pre>
+Here <em>time</em> is the arrival time (a non-negative long integer); <em>lane</em> is the lane number (1-based, from 1 thru L); <em>threat</em> is 0 or 1. In the files produced by the Arrival schedule generator, lines are arranged chronologically (non-decreasing time), with the lane number as a secondary key.
+
+<p>If you generate a schedule file yourself, you don't have to arrange the lines in this way; you can, for example, use the lane number as a primary key for ordring. The only requirement is that the lines for a given lane number, wherever they appear in the file, appear in a chronological order (non-decreasing time).
+
+<p><strong>Additional options</strong>
+
+<pre>
+-Dspeed=100  simulation speed (so many units of simulation time per
+    one second of real time). Use 0 to run simulation fast (without
+     regard to the wall clock).
+-DT=-1   Time limit. If the value is negative, it is ignored, and the
+    simulation runs until it runs out of customers in all lanes. 
+    If T is non-negative, the simulation will stop after T units of 
+    simulated time, or when it runs out of customer, whichever happens sooner.
+-Dseed=0   seed for the random number generator
+</pre>
+
+<h3>Using the GUI simulator</h3>
+
+<pre>
+rungui.sh 
+</pre>
+or
+<pre>
+java -cp lib/qsim.jar qsim.gui.QsimGUI
+</pre>
+
+<p>To run a simulation, start with loading a config file using the File menu. Then, optionally, you can load an arrival schedule file. (Since, unlike the batch simulator, you cannot carry out multiple runs, you need to choose a single file, not a directory. You can pick any file from a directory produced by the arrival schedule generator). Then click on "Run". You can stop and resume simulation at will with the "Stop" and "Run" buttons; you can also "break" and "fix" lanes. (This can be done with or without stopping the simulator).
+
+<p>The simulation speed, and the time limit (if any) can be controlled via the Options menu.
+
+<p><strong>Resetting simulation.</strong> You can reset the simulator by reading a config file (the same one or a different one) again, or by loading an arrival file.
+
+
+<h3>Using the arrvial schedule generator</h3>
+
+<p>The arrival schedule generator is a separate tool which can be used to prepare an arrival schedule file which later can be used by the batch simulator or GUI simulator.
+
+<pre>
+java -Druns=10 -cp lib/qsim.jar qsim.GenerateArrivals config10.dat out-dir
+</pre>
+
+This will create 10 schedule files, in the directory out-dir, named <tt>arrivals-000</tt> thru  <tt>arrivals-009</tt>. 
+
+<p>If the output directory name is omitted, a name, such as arrivals-qsim-2016-05-25_23-59-03 will be automatically generated.
+
+<p>The number of customers in each file (nGenMax) and arrival rate for each lane (lambda) are taken from the config file.
+
+<p>Additional options:
+
+<pre>
+-Dseed=0   seed for the random number generator
+</pre>
+
+
+</body>

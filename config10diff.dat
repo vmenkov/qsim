@@ -1,0 +1,67 @@
+#---------------------------------------------------------------
+# Section 1: General parameters
+#---------------------------------------------------------------
+#-- The number of lanes
+L=10
+
+#-- Lambda, the avg frequence of customer arrival (per second)
+lambda=0.1
+#-- The number of customers to be generated per each lane. (0 means infinite)
+nGenMax=20
+#-- Fraction of "bad" customers among the arrivals (in [0,1] range)
+fracBad=0.2
+
+dAcceptable=0.5
+
+# policy=P1
+policy=P2
+
+#---------------------------------------------------------------
+#-- Section 2: All profiles
+#-- One or more screening profiles knwon to the system. (Each individual
+#-- lane may be using all or some of these profiles; this will be
+#-- described in the following section).
+#-- The profiles should be listed in the order
+#-- of increasing detection rate and decreasing average processing time.
+#---------------------------------------------------------------
+
+#-- Screening profile No. 1, with prefix "p1"
+p1.L=5
+p1.M=10
+p1.H=14
+p1.d=0.2
+
+#-- Screening profile No. 2, with prefix "p2"
+p2.L=10
+p2.M=15
+p2.H=20
+p2.d=0.8
+
+#-- Screening profile No. 3, with prefix "p3"
+p3.L=20
+p3.M=25
+p3.H=30
+p3.d=0.85
+
+#-- Screening profile No. 3, with prefix "p3"
+p4.L=30
+p4.M=60
+p4.H=90
+p4.d=0.9
+
+
+#---------------------------------------------------------------
+#-- Section 3: Individual lane's profile sets
+# Here we describe each lane's profile set. If no profile set
+# for a particular lane is explicitly specified here, this lane's
+# profile set will include all profiles known to the system
+#---------------------------------------------------------------
+
+L8.profile1=3
+L8.profile2=4
+L9.profile1=3
+L9.profile2=4
+L10.profile1=3
+L10.profile1=4
+
+

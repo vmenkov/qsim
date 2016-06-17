@@ -1,0 +1,33 @@
+L=10
+
+#-- Lambda, the avg frequence of customer arrival (per second)
+lambda=0.1
+#-- The number of customers to be generated per each lane. (0 means infinite)
+nGenMax=50
+#-- Fraction of "bad" customers among the arrivals (in [0,1] range)
+fracBad=0.2
+dAcceptable=0.5
+
+# policy=P1
+policy=P3
+
+# The options for counting (or not counting) the currently-processed user
+# when measuring the queue length: YES, NO, PARTIALLY. The "PARTIALLY"
+# option should result in a sensible tie-breaking when ranking lanes
+# by queue length.
+policy.countCurrentlyScreened=PARTIALLY
+
+#----------------------------------------------------------------------
+#-- One or more screening profiles. They should be listed in the order
+#-- of increasing detection rate and decreasing average processing time.
+#-- Screening profile No. 1, with prefix "p1"
+p1.L=5
+p1.M=10
+p1.H=14
+p1.d=0.2
+
+#-- Screening profile No. 2, with prefix "p2"
+p2.L=30
+p2.M=35
+p2.H=40
+p2.d=0.8
