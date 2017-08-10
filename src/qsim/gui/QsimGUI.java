@@ -391,7 +391,7 @@ public class QsimGUI extends MyJFrame {
 	OptionDialog.showDialog(this,
 				optionsItem,
 				"Current option values:",
-				"Frontier Finder options");
+				"Simulation options");
 
 	return;
     }

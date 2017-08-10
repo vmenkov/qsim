@@ -36,7 +36,7 @@ public class Parameters {
     /** The total number of arrivals to generate in each lane, after which the
 	generator stops. If 0, never stop generating arrivals. */
     final public int nGenMax;
-    /** Th fraction of "bad" customers among the arrivals */
+    /** The fraction of "bad" customers among the arrivals */
     final public double fracBad;
     final public double dAcceptable;
     /** All profiles that can be available to any screening

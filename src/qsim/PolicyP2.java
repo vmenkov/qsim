@@ -14,8 +14,8 @@ lanes.
 
 <p>
 (2) Given the "target detection rate" dAcceptable, the two
-"bracketing" profiles (the "lower" or "Faster" one with d <=
-dAcceptable, and the "higher"  or "Slower" one with d>=dAcceptable)
+"bracketing" profiles (the "lower" or "Faster" one with d &le;
+dAcceptable, and the "higher"  or "Slower" one with d &ge; dAcceptable)
 are identified in each group of "identically equipped lanes". A real
 value f is computer as the fraction of customers that would need to be
 processed by the higher profile in order for the average notional
@@ -92,16 +92,22 @@ class PolicyP2 extends Policy {
 	}
 
 	/** Checks whether a given screening lane can be enrolled into this
-	    group, and if so, does it. */
+	    group, and if so, increments this group's lane count. */
 	boolean tryToInclude(Queue lane) {
 	    if (!sameProfiles(lane.myprofiles)) return false;
 	    n++;
 	    return true;
 	}
 
-	/** Identifies the 2 "bracket" profiles bracketing the desired
-	    detection rate dAcceptable. This is called from the 
-	    Group constructor.
+	/** Identifies the 2 "bracket" screeer profiles bracketing
+	    the desired detection rate dAcceptable. This is called
+	    from the Group constructor.
+
+	    If all available screener profiles have the detection
+	    rate higher than dAcceptable, then all lanes will use the
+	    lowest-rate profile; conversely, if all screener profiles
+	    have the detection rate lower than dAcceptable, then all
+	    lanes will use the highest-rate profile.
 	 */
 	private void setBrackets() {
 	    lowBracketID = -1;

@@ -24,10 +24,11 @@ public class ScreenerProfile {
 	return "(Cost "+L+":"+ M+ ":"+H+", d="+d+")";
     }
 
-    /** Looks for the parameters of a screener profile in a the option store 
+    /** Looks for the parameters of a screener profile in the option store 
 	@param ht the option store
 	@param prefix all option names should beging with this prefix (e.g. "p1.L", "p1.H" etc for prefix "p1."
 	@return the screener profile composed of all the relevant options with the specified prefix.      
+	@throws Parameters.ParseException if some essential parameters are missing or have nonsensical values
     */
     static ScreenerProfile findScreenerProfile(ParseConfig ht, String prefix)
 	throws Parameters.ParseException  {

@@ -3,7 +3,12 @@ package qsim;
 import java.io.*;
 import java.util.*;
 
-/** Paul's policy P1: fixed assignment of lanes to policies
+/** A policy determines how we choose the screener profile for each
+    lane that has multiple profiles available. 
+
+    <p>
+    This is an abstract class; the derived classes implement various
+    policy actually available in the simulator.
  */
 abstract class Policy {
 
