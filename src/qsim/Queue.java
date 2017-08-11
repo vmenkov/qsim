@@ -3,7 +3,7 @@ package qsim;
 import java.io.*;
 import java.util.*;
 
-/** A Queue object simulates a single lane */
+/** A Queue object simulates a single screening lane. */
 public class Queue {
 
     static final long NEVER = Long.MIN_VALUE;
@@ -20,8 +20,8 @@ public class Queue {
 	}
     }
 
-    /** Encapsulates the information of a customer and his progress through the 
-	screening lane */
+    /** Encapsulates the information about a customer and his progress
+	through the screening lane */
     static public class Arrival extends ArrivalBase {
 	public String getLabel() {
 	    return 
@@ -100,7 +100,7 @@ public class Queue {
     /** How many customers we will screen before taking a customer from an
 	adjacent broken lane */
     int ownPatronCnt=0;
-    /** From which broken lane (this+1 or this-1?) dir we take a
+    /** From which broken lane (this+1 or this-1?) did we take a
 	customer last time?  (Sometimes the value can go beyond +1 or
 	-1, if there are several broken lanes next to each other)  */
     int lastBrokenLaneDelta= 0;
@@ -110,11 +110,13 @@ public class Queue {
     /** Same as allCnt */
     int doneCnt() { return completed.size(); }
 
+    /** Back link to the main simulator object */
     private Qsim parent;
 
     /** Link to other queues (used for getting customers from adjacent
 	broken lanes) */
-    private final Queue[] allQueues; 
+    private final Queue[] allQueues;
+    /** This lane's position in the array of all lanes */
     private final int mypos;
 
     /**
@@ -242,9 +244,10 @@ public class Queue {
     }
 
 
-    /** Chooses a suitable screening profile. The assumption is that 
-	the profiles are listed in the order of increasing d, so we pick
-	the first profile that's acceptable.
+    /** Chooses a suitable screening profile, pursuant to the simulator's
+	profile selection policy. The assumption is that the profiles
+	are listed in the order of increasing d, so we pick the first
+	profile that's acceptable.
      */
     private int chooseProfile() {
 	return parent.policy.chooseProfile(mypos, allQueues);
@@ -314,7 +317,7 @@ public class Queue {
 	should have customers in its queue, and the first customer
 	should not be being processed at this lane (as the last customer
 	who is still processed by the already-broken lane).
-	If it does, removes the first waiting pattern from the
+	If it does, removes the first waiting customer from the
 	queue and returns it.
     */
     synchronized Arrival giveOnePatron() {
@@ -356,7 +359,8 @@ public class Queue {
 	return false;
     }
   
-    /** Returns an array of deltas to try. */
+    /** Returns an array of deltas, i.e. pointers to nearby lanes from
+	which we can try getting stuck customers. */
     private int[] deltaList(int delta0) {
 	int direction = (delta0>=0? 1: -1);
 	int n1 = parent.numberOfLanesToHelp(mypos, direction);

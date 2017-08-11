@@ -1,0 +1,40 @@
+#-- This example demonstrates how with static assignment of profiles
+#-- (policy P1) some lanes may become swamped with work (arrival rate
+#-- greater than processing rate, thus the queue size increasing
+#-- indefinitely), while others will have no significant backlog
+
+#-- number of lanes
+L=10
+
+#-- Lambda, the avg frequence of customer arrival (per second)
+lambda=0.10
+#-- The number of customers to be generated per each lane. (0 means infinite)
+nGenMax=0
+#-- Fraction of "bad" customers among the arrivals (in [0,1] range)
+fracBad=0.2
+dAcceptable=0.4
+
+#-- policy P1 means static profile assignment
+policy=P1
+
+
+# The options for counting (or not counting) the currently-processed user
+# when measuring the queue length: YES, NO, PARTIALLY. The "PARTIALLY"
+# option should result in a sensible tie-breaking when ranking lanes
+# by queue length.
+policy.countCurrentlyScreened=PARTIALLY
+
+#----------------------------------------------------------------------
+#-- One or more screening profiles. They should be listed in the order
+#-- of increasing detection rate and decreasing average processing time.
+#-- Screening profile No. 1, with prefix "p1". A fast profile
+p1.L=2
+p1.M=4
+p1.H=6
+p1.d=0.3
+
+#-- Screening profile No. 2, with prefix "p2". A slow profile
+p2.L=10
+p2.M=20
+p2.H=30
+p2.d=0.8

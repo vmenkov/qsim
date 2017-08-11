@@ -1,9 +1,14 @@
-package qsim;
+package qsim; 
 
 import java.io.*;
 import java.util.*;
 
-/** 
+/** This is a dynamic profile selecting policy. It is very simple: every time
+     a customer is to be processed by some lane, we compute the overall system's
+     detection rate so far (based on how many customers have been processed
+     by each profile anywhere in the system), and choose the profile for 
+     screening this customer so that the overall detection rate will stay above 
+     the acceptable threshold.
  */
 class PolicyP0 extends Policy {
 

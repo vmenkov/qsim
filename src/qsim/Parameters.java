@@ -15,6 +15,7 @@ public class Parameters {
 
     }
 
+    /** The available policies for the selection of screener profiles */
     enum Policy {
 	P0, P1, P2, P3;
     };

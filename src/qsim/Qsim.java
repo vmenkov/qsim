@@ -177,7 +177,9 @@ public class Qsim {
 	return minT;
     }
 
-    /** @param T stop if simulation time reaches T. Use a negative
+    /** The main simulation loop.
+
+	@param T stop if simulation time reaches T. Use a negative
 	number to mean, "don't stop until running out of users.
     */
     public void simulate(final long T) {

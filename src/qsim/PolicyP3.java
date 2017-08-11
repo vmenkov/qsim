@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.text.*;
 
-/** policy P3: giving out "tickets" for F and S, to ensure proper 
+/** policy P3: giving out "tickets" for F[ast] and S[low], to ensure proper 
     detection rate.
 
     <p>It includes a "ticket box" system, whereby it is guaranteed
