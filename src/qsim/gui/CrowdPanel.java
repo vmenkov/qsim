@@ -75,7 +75,7 @@ public class CrowdPanel extends JPanel //implements ActionListener,
     public void paintSVG( SVGGraphics2D g2d) 	{
 	Dimension dim =  new Dimension( 800, 800);  // (w h)
 	g2d.setSVGCanvasSize(dim);
-	parent.presented.paintFrontier(g2d, dim, false);
+	parent.presented.paintPlot(g2d, dim, false, parent.qsim),
     }
     */
 

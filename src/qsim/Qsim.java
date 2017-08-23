@@ -138,13 +138,14 @@ public class Qsim {
 	clicked the STOP button or effected some state-changing operations
 	while we were sitting here.
 	@param msec0 The wall clock time (msec) when "now" was equal to "now1"
-	@return true if the user has requested simulation stop
+	@return true if the user has requested simulation stop, or carried out
+	some other actions
      */
-    private void goSlow(long now0, long now1, long msec0) {
+    private boolean goSlow(long now0, long now1, long msec0) {
 	double speed = Options.getSpeed();
 	if (speed<=0) { // a non-interactive run
 	    now = now1;
-	    return;
+	    return false;
 	}
 	long msecTarget = msec0 + (long)((now1 - now0) * 1000.0 / speed);
 	long lastMsecShow= -1;
@@ -160,18 +161,19 @@ public class Qsim {
 
 
 	    now = Math.min(  Math.max(now, now0 + (long)((msecNow-msec0)*speed / 1000)), now1);
-	    if (stopRequested || attentionRequested) return;
+	    if (stopRequested || attentionRequested) return true;
 	    if (msecNow >= msecTarget) {
 		now = now1;
-		return;
+		return false;
 	    }
 	    long sleepMsec = Math.min(msecTarget - msecNow, 100);
 	    try {		    
 		Thread.sleep(sleepMsec);
 	    } catch ( InterruptedException ex) {
 	    }
-
 	}
+	return false;
+
     }
 
     /** When is the time we need to attend to an event in some lane?
@@ -197,7 +199,9 @@ public class Qsim {
 	stopRequested = false;
 
 	final long msec0 = (new Date()).getTime();
+        long msecAtLastReplot = msec0;
 	final long now0 = now;
+	
 
 	long lastPrint =0;
 	while(T<0 || now<=T) {
@@ -205,6 +209,7 @@ public class Qsim {
 	    if (attentionRequested) attentionRequested = false;
 
 	    boolean mustRedisplay[] = new boolean[lanes.length];
+	    boolean mustReplot = false;
 	    // Handle all arrivals that may be happening right now
 	    for(int j=0; j< lanes.length; j++) {
 		mustRedisplay[j] = lanes[j].isBroken();
@@ -232,7 +237,7 @@ public class Qsim {
 	    // Display the current state
 	    display.showSummary(" t=" + now + ", " + summaryText());
 	    display.showStats2(policy.report(lanes));
-	    display.plotCrowdData(logData);
+	    //	    display.plotCrowdData(logData);
 	    logC(now, sumLen());
 
 	    if (now / 100 > lastPrint / 100) {
@@ -257,7 +262,14 @@ public class Qsim {
 
 	    // slowly advance clock to the next event, or until the user
 	    // clicks a button
-	    goSlow(now0, nextNow, msec0);    
+	    boolean isClick = goSlow(now0, nextNow, msec0);
+	    long msec1 = (new Date()).getTime();
+	    // only redisplay plot every 2 sec or so, to save resources
+	    mustReplot = isClick || (msec1 > msecAtLastReplot + 2000);
+	    if (mustReplot) {
+		display.plotCrowdData(logData);
+		msecAtLastReplot = (new Date()).getTime();
+	    }
 	}
 
 	System.out.println("END: At t=" + now);
