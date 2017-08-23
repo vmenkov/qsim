@@ -61,7 +61,7 @@ public class QsimGUI extends MyJFrame {
 	optionsMenu.setEnabled(yes);
     }
 
-
+    /** Creates a frame with all the components that are to be displayed. */
     public QsimGUI() {
 	super("Multilane screening simulation, Qsim ver. "+ Qsim.version);
 	
@@ -70,7 +70,6 @@ public class QsimGUI extends MyJFrame {
 	MenuHandler menuHandler = new MenuHandler();
 	
 	// file menu
-	//JMenu 
 	fileMenu = new JMenu("File");
 	menuBar.add(fileMenu);
 	
@@ -350,14 +349,14 @@ public class QsimGUI extends MyJFrame {
     }
 
 
-   /** Saves the log for this run
+   /** Saves the log for this run, to the user-specified file.
      */
     void saveLog() {
 
 	if (qsim == null || qsim.getNow()==0) {
 
 	    String msg=
-		"No configuration has been loaded, or no simulation has been run with this configuration yet.\n Please read a config file and run a simulation first";
+		"No configuration has been loaded, or no simulation has been run with this configuration yet.\n Please read a config file and run a simulation first.";
 	    System.out.println(msg);
 	    JOptionPane.showMessageDialog(this,msg);
 	    return;

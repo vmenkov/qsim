@@ -31,7 +31,7 @@ public class QsimPanel extends JPanel implements ActionListener,
     JLabel popupLabel[] = new JLabel[3];
 
    /** 
-      * Constructor for DDPanel. 
+      * Constructor for QsimPanel. 
       */
     public QsimPanel(int width, int height, QsimGUI _parent) {
 	parent = _parent;
@@ -45,8 +45,11 @@ public class QsimPanel extends JPanel implements ActionListener,
 
     static String WORKING = "Working", BROKEN="Broken";
 
-    /** A hook for Qsim to display simulation progress using this panel */
+    /** A hook for Qsim to display simulation progress using this
+     panel.  Methods of this class are called from the simulator
+     thread to update status labels shown in this panel. */
     public class GuiProgressDisplay extends Qsim.ProgressDisplay {
+	/** Updates info text for the j-th lane */
 	public void display(int j, qsim.Queue q) {
 	    if (labels==null || j>=labels.length) return;
 	    labels[j].setText("<html>"+q.describeQueue2(true)+"</html>");

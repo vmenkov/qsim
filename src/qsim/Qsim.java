@@ -75,7 +75,11 @@ public class Qsim {
 	attentionRequested = true;
     }
 
-    /** History data to print to file at the end of run */
+    /** History data which can be printed to a file at the end of run,
+	or used to draw a chart showing the crowd size as a function
+	of time.
+	logData[i] = (t[i], crowd_size[i]))
+     */
     private Vector<long[]> logData = new Vector<long[]>();
 
     synchronized private void logC(long t, int c) {
@@ -87,7 +91,8 @@ public class Qsim {
 	}
     }
 
-    /** Saves the accummulated log information for this run */
+    /** Saves the accummulated log information for this run.
+     @param f File into which the data will be written */
     public void saveLog(File f) throws IOException {
 	PrintWriter w = new PrintWriter(new FileWriter(f));
 	for(long[] q: logData) {
