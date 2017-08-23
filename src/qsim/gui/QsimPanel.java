@@ -42,7 +42,8 @@ public class QsimPanel extends JPanel implements ActionListener,
     JLabel[] labels = null;
     JLabel statsLabel = null, statsLabel2=null;
     JButton buttonRun, buttonStop;
-
+    CrowdPanel crowdPanel = null;
+    
     static String WORKING = "Working", BROKEN="Broken";
 
     /** A hook for Qsim to display simulation progress using this
@@ -60,7 +61,14 @@ public class QsimPanel extends JPanel implements ActionListener,
  	public void showStats2(String s) {
 	    statsLabel2.setText("<html><pre>" +s+ "</pre></html>");
 	}
-  
+	/** Plots the updated historical crowd size graph */
+	public void plotCrowdData( Vector<long[]> logData) {
+	    if (crowdPanel != null) {
+		crowdPanel.repaint();
+	    }
+	}
+
+	
     }
 
     private final GuiProgressDisplay display = new GuiProgressDisplay();
@@ -124,6 +132,9 @@ public class QsimPanel extends JPanel implements ActionListener,
 	    add(p);
 	}
 
+	crowdPanel = new CrowdPanel(400,400, parent);
+	add(crowdPanel);
+	
 	p = new JPanel();
 	p.setMaximumSize(new Dimension(Integer.MAX_VALUE, 4*h+3));
 	p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));	    
@@ -131,6 +142,12 @@ public class QsimPanel extends JPanel implements ActionListener,
 	statsLabel2.setMaximumSize(new Dimension(Integer.MAX_VALUE,4*h));
 	p.add(statsLabel2);
 	add(p);
+	
+
+       	// 2017-08-23: crowd size plot
+	//	PresentedData presented =  new CrowdPresentedData();
+
+
 
 	//this.addMouseListener(this); // to monitor mouse clicks
 	repaint();
@@ -187,6 +204,7 @@ public class QsimPanel extends JPanel implements ActionListener,
 	    buttonRun.setEnabled(false);
 	    buttonStop.setEnabled(true);
 	    parent.fileMenu.setEnabled(false);
+	    parent.presented = new CrowdPresentedData();
 	    (new QsimWrapper()).start();
 	} else
 	    if (CMD.STOP.equals(e.getActionCommand())) {

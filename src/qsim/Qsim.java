@@ -82,6 +82,10 @@ public class Qsim {
      */
     private Vector<long[]> logData = new Vector<long[]>();
 
+    public Vector<long[]> getLogData() {
+	return logData;
+    }
+
     synchronized private void logC(long t, int c) {
 	int n=logData.size();
 	if (n>0 && logData.elementAt(n-1)[0]==t) {
@@ -118,6 +122,8 @@ public class Qsim {
 	public void showSummary(String s) {}
 	/** Displays additional stats (multi-line text) */
 	public void showStats2(String s) {}
+	/** Plots the updated historical crowd size graph */
+	public void plotCrowdData( Vector<long[]> logData)  {}
     }
 
     ProgressDisplay display = new ProgressDisplay();
@@ -226,6 +232,7 @@ public class Qsim {
 	    // Display the current state
 	    display.showSummary(" t=" + now + ", " + summaryText());
 	    display.showStats2(policy.report(lanes));
+	    display.plotCrowdData(logData);
 	    logC(now, sumLen());
 
 	    if (now / 100 > lastPrint / 100) {
@@ -289,7 +296,7 @@ public class Qsim {
 	return sumLen;	
     }
 
-    static final public String version = "0.6.1";
+    static final public String version = "0.6.2";
 
     static Random gen = new Random(0); 
 

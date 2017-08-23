@@ -10,7 +10,7 @@ import javax.swing.*;
 //import javax.swing.event.*;
 
 
-//import qsim.*;
+import qsim.Qsim;
 
 /** Used to plot the crowd-againts-time curve
  */
@@ -22,7 +22,7 @@ abstract public class PresentedData {
     }
 
     /** Not supported in the parent class; children must implement */
-    abstract public void paintPlot(Graphics2D g2d, Dimension bounds, boolean fromGUI);
+    abstract public void paintPlot(Graphics2D g2d, Dimension bounds, boolean fromGUI, Qsim _qsim);
     /*
     public void paintPlot(Graphics2D g2d, Dimension bounds, boolean fromGUI) {
 	// FIXME
@@ -36,8 +36,8 @@ abstract public class PresentedData {
       ability to click on nodes etc.) should be enabled, as opposed to 
       simply producing a PNG/SVG image file.
      */
-   public void paintPlot(Graphics2D g2d, boolean fromGUI) {
-       paintPlot(g2d,  getRecommendedDim(), fromGUI);
+    public void paintPlot(Graphics2D g2d, boolean fromGUI, Qsim qsim) {
+	paintPlot(g2d,  getRecommendedDim(), fromGUI, qsim);
    }
 
 
@@ -80,7 +80,7 @@ abstract public class PresentedData {
 			    margin,  bounds.height-margin);
 
 	g2d.setPaint(Color.blue);
-	g2d.draw( at.createTransformedShape(new Rectangle2D.Double(0,0, realWidth,1)));
+	g2d.draw( at.createTransformedShape(new Rectangle2D.Double(0,0, realWidth,realHeight)));
 
 	// text base position
 	Point2D p1;
@@ -92,7 +92,7 @@ abstract public class PresentedData {
 	p1 = at.transform(new  Point2D.Double(0, 0), null);
 	g2d.drawString("0", (int)p1.getX(), (int)p1.getY()+textHt+2);
 
-	p1 = at.transform(new  Point2D.Double(0, 1), null);
+	p1 = at.transform(new  Point2D.Double(0, realHeight), null);
 	g2d.drawString("Crowd size    " + title,(int)p1.getX() + 5,
 		       (int)p1.getY()-2);
 
@@ -101,7 +101,7 @@ abstract public class PresentedData {
 	double step = goodStep(realWidth);
        
 
-	NumberFormat fmt = new DecimalFormat("0.0");
+	NumberFormat fmt = new DecimalFormat("0");
 	//	int maxKx=  (int)(realWidth * 10);
 	for(int k=1; k * step <= realWidth; k++) {
 	    double x = k * step;
@@ -119,7 +119,7 @@ abstract public class PresentedData {
 
 	    if (x+0.01<realWidth) {
 		g2d.setPaint(Color.yellow);
-		Point2D p2 = at.transform(new  Point2D.Double(x, 1), null);
+		Point2D p2 = at.transform(new  Point2D.Double(x, realHeight), null);
 		g2d.draw( new Line2D.Double(p1, p2));
 	    }
 	    
@@ -137,7 +137,7 @@ abstract public class PresentedData {
 	    g2d.draw( new Line2D.Double(p1, p1q));
 	    g2d.drawString(fmt.format(y),   3, (int)p1.getY());
 
-	    if (k<10) {
+	    if (k % 2 == 0) {
 		g2d.setPaint(Color.yellow);
 		Point2D p2 = at.transform(new  Point2D.Double(realWidth,y), null);
 		g2d.draw( new Line2D.Double(p1, p2));

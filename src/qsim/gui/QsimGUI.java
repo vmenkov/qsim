@@ -40,6 +40,8 @@ public class QsimGUI extends MyJFrame {
 
     private JMenuItem optionsItem;          // options menu
 
+    /** The tool for displaying crowd size plot */
+    PresentedData presented = null;
 
     void setLabel(String msg ) {
 	setLabel(msg, msg);
@@ -166,7 +168,7 @@ public class QsimGUI extends MyJFrame {
 	optionsMenu.add(optionsItem);
 
 	int width = 600;
-	int height = 400;
+	int height = 600;
 	setSize(width, height);
 	setLocation(100, 0);
 
