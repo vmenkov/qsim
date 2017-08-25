@@ -89,6 +89,9 @@ public final class ParseConfig extends Hashtable<String,Object>
 			token.wordChars((int) ':', (int) ':');
 			token.wordChars((int) '.', (int) '.');
 			token.wordChars((int) '_', (int) '_');
+			// for numbers, esp. in exponential format
+			token.wordChars((int) '-', (int) '-');
+			token.wordChars((int) '+', (int) '+');
 
 			// Comments begin with a '#', not '//'
 			token.slashSlashComments(false);
@@ -102,7 +105,7 @@ public final class ParseConfig extends Hashtable<String,Object>
 					name = token.sval;
 					lastName = name;
 				} else {
-					throw new IOException("Syntax error in config file: A WORD token expected for a parameter name. The last parmeter read was `" + lastName + "'");
+					throw new IOException("Syntax error in config file: A WORD token expected for a parameter name. The last parameter read was `" + lastName + "'");
 				}
 
 				// read the value 

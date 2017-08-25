@@ -3,7 +3,9 @@
 import java.io.*;
 import java.util.*;
 
-/** Model parameters and algorithm parameters */
+/** Model parameters and algorithm parameters. The parameter values
+    can be supplied via the Java command line (using the Java
+    -Dname=val syntax), or via a config file. */
 public class Parameters {
 
     /** Thrown when an error is found in the config file */
@@ -15,7 +17,7 @@ public class Parameters {
 
     }
 
-    /** The available policies for the selection of screener profiles */
+    /** The available {@link Policy policies} for the selection of screener profiles */
     enum Policy {
 	P0, P1, P2, P3;
     };
@@ -28,12 +30,19 @@ public class Parameters {
 	YES, NO, PARTIALLY;
     }
     
-    /** Number of screening lanes */
+    /** The number of screening lanes */
     final public int L;
 
     
-    /** Customer arrival rate (per lane); Poisson distribution */
+    /** Customer arrival rate (avg customers per unit of time, per
+	lane). Poisson distribution */
     final public double lambda;
+    /** Indicates the rate of change of lambda with time (linear growth or
+	decrease). Zero means constant lambda. */
+    final public double lambdaGrowthRate;
+    public double currentLambda(double now) {
+	return lambda + lambdaGrowthRate*now;
+    }
     /** The total number of arrivals to generate in each lane, after which the
 	generator stops. If 0, never stop generating arrivals. */
     final public int nGenMax;
@@ -41,8 +50,10 @@ public class Parameters {
     final public double fracBad;
     final public double dAcceptable;
     /** All profiles that can be available to any screening
-    device. Each individual lane may have all or some of these
-    profiles at its disposal. */
+	device. Each individual lane may have all or some of these
+	profiles at its disposal; the choice of the profile to be used
+	by each lane at any given time is controlled by the system's
+	{@link #policy}. */
     final ScreenerProfile[] profiles;
 
     /** For Lane j, profileIndexes[j] contains the list of profiles
@@ -73,6 +84,7 @@ public class Parameters {
 	ParseConfig ht = (f==null) ? new ParseConfig() : new ParseConfig(f);
 	L = ht.getOption("L",4);
 	lambda = ht.getOptionDouble("lambda",0.1);
+	lambdaGrowthRate = ht.getOptionDouble("lambdaGrowthRate",0);
 	nGenMax = ht.getOption("nGenMax",0);
 	fracBad = ht.getOptionDouble("fracBad",0.1);
 	dAcceptable = ht.getOptionDouble("dAcceptable",0);
@@ -134,9 +146,16 @@ public class Parameters {
 	return z;
     }
 
+    public String describeLambda() {
+	String s= "" + lambda;
+	if (lambdaGrowthRate>0) s += "+t*" + lambdaGrowthRate;
+	else if (lambdaGrowthRate<0) s += "-t*" + (-lambdaGrowthRate);
+	return s;
+    }
+    
     public String toString() {
-	return "L="+L+", lambda=" + lambda+", fracBad=" + fracBad +"; has "+
-	    profiles.length + " profiles";
+	return "L="+L+", lambda=" + describeLambda()+", fracBad=" + fracBad +
+	    "; has "+ profiles.length + " profiles";
     }
 }
 

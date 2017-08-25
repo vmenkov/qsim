@@ -25,7 +25,7 @@ public class QsimGUI extends MyJFrame {
     /** The queue simulator whose behavior is displayed in the GUI */
     Qsim qsim = null;
 
-  // GUI components - menu items
+    // GUI components - menu items
     private JMenuItem openConfigItem, openArrivalsItem;          // file menu
     /*
     private JMenuItem readPiListItem;          
@@ -65,7 +65,7 @@ public class QsimGUI extends MyJFrame {
 
     /** Creates a frame with all the components that are to be displayed. */
     public QsimGUI() {
-	super("Multilane screening simulation, Qsim ver. "+ Qsim.version);
+	super("Multilane screening simulation, Qsim ver. "+ Qsim.version + ", released " + Qsim.releaseDate);
 	
 	JMenuBar menuBar = new JMenuBar();
 	setJMenuBar(menuBar);

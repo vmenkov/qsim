@@ -14,7 +14,7 @@ import qsim.Qsim;
 
 /** Used to plot the crowd-againts-time curve
  */
-public class CrowdPresentedData extends PresentedData {
+class CrowdPresentedData extends PresentedData {
     
     public void paintPlot(Graphics2D g2d, Dimension bounds, boolean fromGUI, Qsim qsim) {
 

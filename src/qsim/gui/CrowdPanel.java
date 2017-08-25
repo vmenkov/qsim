@@ -16,11 +16,10 @@ import javax.swing.filechooser.*;
 //--------------- for SVG output
 //import org.apache.batik.svggen.SVGGraphics2D;
 
-/**
- * Panel for drawing the crowd graph
- * ({@link QsimGUI}).
+/** Panel for drawing the crowd graph in the Qsim GUI 
+  ({@link QsimGUI}).
  */
-public class CrowdPanel extends JPanel //implements ActionListener, 
+class CrowdPanel extends JPanel //implements ActionListener, 
 				    //MouseInputListener,  SVGAwareComponent
 {
  
@@ -31,7 +30,7 @@ public class CrowdPanel extends JPanel //implements ActionListener,
     //    JLabel popupLabel[] = new JLabel[3];
 
      /** 
-      * Constructor for DDPanel. 
+      * Constructor for CrowdPanel. 
       */
     public CrowdPanel(int width, int height, QsimGUI _parent) {
 	parent = _parent;
@@ -55,18 +54,16 @@ public class CrowdPanel extends JPanel //implements ActionListener,
 	//	      "; w=" + bounds.width +", h=" + bounds.height+")");
 
 	if (parent.presented != null) {
-	    
-	    parent.presented.paintPlot(g2d, new Dimension( bounds.width,bounds.height),
-				       true, parent.qsim);
+	    Dimension dim = new Dimension( bounds.width,bounds.height);
+	    parent.presented.paintPlot(g2d, dim, true, parent.qsim);
 	} else {
-	    
 	    g2d.drawString("Crowd graph will go here",10,20);
 
 	}
 
     }
 
-    /** Paints the content of this element (i.e, the frontier curve) to a 
+    /** Paints the content of this element (i.e, the crowd graph) to a 
      Graphics2d that comes from the SVG rendering process. The actions are
      similar to paintComponent(), except that here we need to explicitly decide
      how big our SVG canvas ought to be.

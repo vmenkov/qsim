@@ -14,7 +14,7 @@ import qsim.Qsim;
 
 /** Used to plot the crowd-againts-time curve
  */
-abstract public class PresentedData {
+abstract class PresentedData {
 
        /** Produces a brief description of the graph, to be displayed above it */
     public String makeGraphTitle() {

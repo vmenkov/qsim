@@ -177,10 +177,13 @@ public class Queue {
 	return (b == null || !b.isBeingScreened());
     }
 
-    /** Used for arrival list generation */
+    /** Generates the arrival time of the next customer in this line,
+	using the Poisson distribution with the pre-set lambda (which
+	itself may be a function of time). Used for arrival list
+	generation.  */
     final long nextArrivalTime(long now) {
 	double p = Qsim.gen.nextDouble();
-	double t = -Math.log(1-p)/para.lambda;
+	double t = -Math.log(1-p)/para.currentLambda(now);
 	return now + (long)t;
     }
 
@@ -206,7 +209,11 @@ public class Queue {
     }
 
     /** Returns a newly generated Arrival object, or null (if all
-	planned arrivals have already been generated) */
+	planned arrivals have already been generated). The arrival
+	data are obtained from a pre-read arrival schedule file (if
+	we're using them on this run), or are generated on-the-fly as
+	per the Poisson distribution.
+    */
     Arrival nextArrival(long now) {
 	if (finishedGeneration()) return null;
         Arrival a = (sched != null)? new Arrival( sched.next()) : 
@@ -288,7 +295,7 @@ public class Queue {
 	StringBuffer b=new StringBuffer();
 	b.append("Gen="+genCnt+ "; Arv="+arvCnt+"; Done " + allCnt +", detected=" + detectedCnt+ " missed=" +missedCnt);
 	b.append("\t");
-	b.append(describeQueue2(false));
+	b.append(describeQueue2(false,0));
 	return b.toString();
     }
     
@@ -299,16 +306,26 @@ public class Queue {
 	return status;
     }
 
-    public String describeQueue2(boolean html) {
-	StringBuffer b=new StringBuffer();
+    /**
+       @param maxlen If positive, truncate the description to approximately this length
+    */
+    public String describeQueue2(boolean html, int maxlen) {
+	StringBuffer b=new StringBuffer();	
 	//	String status = broken? "X" : currentProfileID==0? "F" : 
 	//	    currentProfileID==1? "S" : ""+(currentProfileID+1);
 	b.append(statusLabel() + ":" + ownPatronCnt + " ");
+	int len = b.length();
+	boolean needToTruncate = (maxlen > 0 && len + waiting.size() > maxlen);
+	int breakLen = (needToTruncate && maxlen > 10) ? maxlen - 7 : 0;
+	boolean broke=false;
 	for(Arrival a: waiting) {
 	    String z=a.getLabel();
+	    len += z.length();
+	    if (breakLen > 0 && len > breakLen) { broke=true; break;}
 	    if (html && a.isBeingScreened()) z= "<b><u>" + z + "</u></b>";
 	    b.append(z);
 	}
+	if (broke) b.append("... " + waiting.size());
 	return b.toString();
     }
 

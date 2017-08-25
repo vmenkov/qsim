@@ -20,7 +20,7 @@ public class Qsim {
      */
     double scale=1.0;
 
-    /** Controls the choice of screener profiles */
+    /** Controls the choice of screener profiles for each lane. */
     Policy policy;
 
     /**@param _para Contains system parameters and simulation parameters
@@ -55,7 +55,7 @@ public class Qsim {
     private boolean stopRequested = false;
     private boolean attentionRequested = false;
 
-    /** Called from GUI if the user clicks the STOP button */
+    /** Called from the GUI if the user clicks the STOP button */
     public synchronized void requestStop() {
 	stopRequested = true;
     }
@@ -68,7 +68,7 @@ public class Qsim {
     }
      
 
-    /** Called from GUI if the user has changed the system state somehow,
+    /** Called from the GUI if the user has changed the system state somehow,
 	e.g. by fixing a broken screening device; this means that 
 	we need to recheck at least that device's status */
     public synchronized  void requestAttention() {
@@ -193,7 +193,7 @@ public class Qsim {
     /** The main simulation loop.
 
 	@param T stop if simulation time reaches T. Use a negative
-	number to mean, "don't stop until running out of users.
+	number to mean, "don't stop until running out of users".
     */
     public void simulate(final long T) {
 	stopRequested = false;
@@ -308,7 +308,8 @@ public class Qsim {
 	return sumLen;	
     }
 
-    static final public String version = "0.6.2";
+    static final public String version = "0.6.3";
+    static final public String releaseDate = "2017-08-25";
 
     static Random gen = new Random(0); 
 
@@ -373,7 +374,7 @@ public class Qsim {
 
     static public void main(String argv[]) throws IOException {
 	Options.setInteractive(false);
-	System.out.println("Qsim ver. " + version);
+	System.out.println("Qsim ver. " + version + ", released " + releaseDate);
 
 	int ja = 0;
 	if (ja >= argv.length) usage();

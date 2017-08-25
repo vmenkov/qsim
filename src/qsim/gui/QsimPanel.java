@@ -20,15 +20,15 @@ import qsim.*;
  * The main panel in the Qsim interactive GUI window
  * ({@link QsimGUI}).
  */
-public class QsimPanel extends JPanel implements ActionListener, 
-						 MouseInputListener//,  SVGAwareComponent 
+public class QsimPanel extends JPanel implements ActionListener 
+						 //, MouseInputListener//,  SVGAwareComponent 
 {
 
     
     QsimGUI parent;
-    JPopupMenu popup;
+    //JPopupMenu popup;
     //    JMenuItem drawTreeMenuItem, saveBGItem;
-    JLabel popupLabel[] = new JLabel[3];
+    //JLabel popupLabel[] = new JLabel[3];
 
    /** 
       * Constructor for QsimPanel. 
@@ -53,7 +53,8 @@ public class QsimPanel extends JPanel implements ActionListener,
 	/** Updates info text for the j-th lane */
 	public void display(int j, qsim.Queue q) {
 	    if (labels==null || j>=labels.length) return;
-	    labels[j].setText("<html>"+q.describeQueue2(true)+"</html>");
+	    int maxlen = (int)(labels[j].getWidth()/oCharWidth) - 4;
+	    labels[j].setText("<html>"+q.describeQueue2(true,maxlen)+"</html>");
 	}
 	public void showSummary(String s) {
 	    statsLabel.setText(s);
@@ -143,44 +144,32 @@ public class QsimPanel extends JPanel implements ActionListener,
 	p.add(statsLabel2);
 	add(p);
 	
-
-       	// 2017-08-23: crowd size plot
-	//	PresentedData presented =  new CrowdPresentedData();
-
-
-
-	//this.addMouseListener(this); // to monitor mouse clicks
 	repaint();
+	determineOCharWidth();
+
+	
     }
 
-	/*
-    {
-	// //this.addMouseMotionListener(this); // ??
-
-	//------------- popup menu for information about a policy
-	//Create the popup menu.
-	popup = new JPopupMenu("Policy details");
-
-	String names[] = {"Policy info", "dD/dC Ratio", "Policy tree"};
-	for(int i=0; i<names.length; i++) {
-	    popupLabel[i] = new JLabel(names[i]);
-	    popup.add(popupLabel[i]);
-	}
-
-	drawTreeMenuItem = new JMenuItem("Draw policy tree in a new window");
-	drawTreeMenuItem.addActionListener(this);
-	popup.add(drawTreeMenuItem);
-
-	saveBGItem = new JMenuItem("Describe policy as a device");
-	saveBGItem.addActionListener(this);
-	popup.add(saveBGItem);
-
-	//Add listener to components that can bring up popup menus.
-	//MouseListener popupListener = new PopupListener();
-	//output.addMouseListener(popupListener);
-	//menuBar.addMouseListener(popupListener);
+    /** The width of char 'o' in labels; used to truncate text */
+    private double oCharWidth = 0;
+    /** What's the typical char width in the font used in the labels?
+	Here we try to find an "average" size, with some padding, instead
+	of trying to properly measure the length of actual strings.
+	// FIXME: maybe we should just use a fixed-width font.
+     */
+    private void determineOCharWidth() {
+	JComponent comp = (labels!=null && labels.length>0 && labels[0]!=null)? labels[0] : this;
+	FontMetrics fmet = comp.getFontMetrics(comp.getFont());
+	double w1 =  fmet.charWidth('o');
+	String o5 = "ooooo";
+	String s = o5 + o5 + o5 + o5 + o5 + o5;
+	double w2 = (double)fmet.stringWidth(s)/(double)s.length();
+	oCharWidth = (w2 > w1) ? w2 : w1;
+	oCharWidth *= 1.01;
+	System.out.println("Char width estimate: " + w1 +", " + w2 +", padded to " + oCharWidth);
     }
-	*/
+
+
 
     /** implementing ActionListener... */
     public void actionPerformed(ActionEvent e) {
@@ -198,8 +187,6 @@ public class QsimPanel extends JPanel implements ActionListener,
 	    }
 	}
 
-	//	if (buttonRun!=null && e.getSource() == buttonRun) {
-	
 	if (CMD.RUN.equals(e.getActionCommand())) {
 	    buttonRun.setEnabled(false);
 	    buttonStop.setEnabled(true);
@@ -216,18 +203,8 @@ public class QsimPanel extends JPanel implements ActionListener,
 	    parent.qsim.requestStop();
 	}
 
-
-	/*
-	if (e.getSource() == drawTreeMenuItem) {
-	    DDGUI.debugln("Trying to draw the tree,,,");
-	    new TreeFrame(this, selectedI, selectedPolicy);
-	} else	if (e.getSource() == saveBGItem) {
-	    DDGUI.debugln("Describing policy as a device");
-	    saveAsADevice( this, selectedPolicy);
-	}
-	*/
     }
-
+    /*
    public void mouseClicked(MouseEvent e) {
     }
 
@@ -252,7 +229,8 @@ public class QsimPanel extends JPanel implements ActionListener,
 
     public void mousePressed(MouseEvent e) {
     }
-
+    */
+    
     /** Is used to run queue simulator in a separate thread asynchronously
 	from the GUI action handler */
     private class QsimWrapper extends Thread {

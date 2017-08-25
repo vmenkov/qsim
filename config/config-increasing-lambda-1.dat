@@ -1,0 +1,45 @@
+# There is some finite number of arriving patrons. Let's say 10,000.
+#-- The number of customers to be generated per each lane. (0 means infinite)
+nGenMax=10000
+
+# There is only one lane.
+#-- number of lanes
+L=1
+
+#----------------------------------------------------------------------
+# The lane processes people with a time that is uniform between, say, 5 and 10.
+#-- There is just one screening profile.
+#-- (Screening profile No. 1, with prefix "p1".)
+#-- The avg time per customer is 7.5, so the avg processing rate = 0.1333
+p1.L=5
+p1.H=10
+p1.d=0.3
+
+
+#-- A trivial example: just one profile for all lanes, so the profile assignment
+#-- policy does not matter. 
+#-- policy P1 means static profile assignment
+policy=P1
+
+
+# let's further suppose that the rate of arrivals is steadily increasing with time. It starts at a value for which the mean interarrival time is 15. So the server can pretty well keep up.
+
+#-- Lambda, the avg frequence of customer arrival (per second).
+lambda = 0.06666
+lambdaGrowthRate = 0.000007777
+
+# But it uniformly (over time, not over 'persons arrived') increases until it the mean inter-arrival time is only half of the low end: 2.5 sec.
+
+#-- Fraction of "bad" customers among the arrivals (in [0,1] range)
+fracBad=0.2
+dAcceptable=0.4
+
+
+# The options for counting (or not counting) the currently-processed user
+# when measuring the queue length: YES, NO, PARTIALLY. The "PARTIALLY"
+# option should result in a sensible tie-breaking when ranking lanes
+# by queue length.
+policy.countCurrentlyScreened=PARTIALLY
+
+
+

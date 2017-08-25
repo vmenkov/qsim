@@ -14,6 +14,10 @@ Java files. These automatically generated (using "ant javadoc") files are under 
 
 doc/api/qsim/package-summary.html
 
+CONFIGURATION FILES
+
+Configuration files are in the directory "config".
+
 EXAMPLES
 
 To run the GUI app, use
