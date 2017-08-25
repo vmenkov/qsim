@@ -1,0 +1,24 @@
+COMPILING
+
+You need a Java compiler (JDK) and Apache Ant to manage the build process.
+To compile the code and build the JAR file, run the command
+
+  ant
+
+in the main directory
+
+DOCUMENTATION
+
+More detailed documentation is built with Javadoc from the doc text inside
+Java files. These automatically generated (using "ant javadoc") files are under doc/api.  You can view the in your web browser, staring from the User Guide at
+
+doc/api/qsim/package-summary.html
+
+EXAMPLES
+
+To run the GUI app, use
+  ./rungui.sh
+
+For one example of running the batch app, see
+  ./runbatch.sh
+

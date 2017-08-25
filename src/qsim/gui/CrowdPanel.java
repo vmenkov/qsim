@@ -18,7 +18,7 @@ import javax.swing.filechooser.*;
 
 /**
  * Panel for drawing the crowd graph
- * ({@link DDGUI}).
+ * ({@link QsimGUI}).
  */
 public class CrowdPanel extends JPanel //implements ActionListener, 
 				    //MouseInputListener,  SVGAwareComponent
