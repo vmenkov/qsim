@@ -24,15 +24,15 @@ java -Druns=10  -cp lib/qsim.jar qsim.Qsim config10.dat outx
 
 The output directory will contain 1 output file per run.
 
-If the name of the destination directory is omitted, a directory with a [nearly] unique name, such as <tt>out-qsim-2016-05-23_01-49-43</tt> will be automatically created.
+If the name of the destination directory is omitted, a directory with a [nearly] unique name, such as <code>out-qsim-2016-05-23_01-49-43</code> will be automatically created.
 
 <pre><strong>With pre-computed arrival schedule files.</strong>
 java -Druns=5 -Darrivals=schedule-dir -cp lib/qsim.jar qsim.Qsim config10.dat outx
 </pre>
 
-<p>Here, the simulator will disregard the customer numebr (nGenMax) and the arrival rate found in the configuration file. Instead of generating the customer arrival schedule dynamically, each run will use a schedule file from the specified directory, which in this example is <tt>schedule-dir</tt>. 
+<p>Here, the simulator will disregard the customer numebr (nGenMax) and the arrival rate found in the configuration file. Instead of generating the customer arrival schedule dynamically, each run will use a schedule file from the specified directory, which in this example is <code>schedule-dir</code>. 
 
-<p>The schedule file directory must contain at least as many schedule file as the specified number of runs. E.g. with -Druns=5, that directory must contain files named <tt>arrivals-000</tt> thru  <tt>arrivals-005</tt>. If there are more files than that, any extra files will be ignored.
+<p>The schedule file directory must contain at least as many schedule file as the specified number of runs. E.g. with -Druns=5, that directory must contain files named <code>arrivals-000</code> thru  <code>arrivals-005</code>. If there are more files than that, any extra files will be ignored.
 
 <p>
 <strong>Arrival schedule files.</strong>
@@ -85,7 +85,7 @@ java -cp lib/qsim.jar qsim.gui.QsimGUI
 java -Druns=10 -cp lib/qsim.jar qsim.GenerateArrivals config10.dat out-dir
 </pre>
 
-This will create 10 schedule files, in the directory out-dir, named <tt>arrivals-000</tt> thru  <tt>arrivals-009</tt>. 
+This will create 10 schedule files, in the directory out-dir, named <code>arrivals-000</code> thru  <code>arrivals-009</code>. 
 
 <p>If the output directory name is omitted, a name, such as arrivals-qsim-2016-05-25_23-59-03 will be automatically generated.
 

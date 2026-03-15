@@ -39,7 +39,7 @@ public class Queue {
 	boolean isBeingScreened() { return sp!=null; }
 	/** How much time has elapsed since screening started on this customer,
 	    as fraction of the maximum time that screening may take.
-	    @returns a value in the range [0,1]
+	    @return a value in the range [0,1]
 	*/
 	double hasBeenScreenedForHowLong(long now) { 
 	    return (double)(now - screenStartTime) / (double)sp.H;
@@ -119,11 +119,10 @@ public class Queue {
     /** This lane's position in the array of all lanes */
     private final int mypos;
 
-    /**
-       @param _allQueues Link to the already allocated array of
-       all Queue objects in the simulator. This is needed to access
-       adjacent broken lanes.
-       @param _mypos Where this queue sits in allQueues
+    /** Creates a new lane, to be included into a Qsim object.
+	
+       @param _parent The Qsim object part of which this lane is. This Qsim object contains an already allocated array _parent.lanes, part of which this lane will be.   This is needed to access adjacent broken lanes.
+       @param _mypos Where this queue will sit in _parent.lanes.
      */
     Queue(Parameters _para, long now, Qsim _parent, int _mypos,
 	  StaticArrivalSchedule _sched) {	

@@ -43,6 +43,7 @@
 	   author="true"
            version="true"
            use="true"
+	   Package="true"
 	   link="http://java.sun.com/j2se/1.5.0/docs/api/"
 	   header="&lt;em&gt;Qsim&lt;/em&gt;"   
 	   windowtitle="Qsim API" >

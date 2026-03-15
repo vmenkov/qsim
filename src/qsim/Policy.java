@@ -18,7 +18,7 @@ abstract class Policy {
 
     /** The factory method creates a Policy object to be used in the 
 	simulator.
-	@param The policy will be chosen as specified in para.policy
+	@param para The policy will be chosen as specified in para.policy
      */
     static Policy createPolicy(Parameters para, Qsim qsim) {
 	Policy p = null;
