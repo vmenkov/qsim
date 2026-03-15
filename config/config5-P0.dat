@@ -4,9 +4,9 @@ L=5
 lambda=0.1
 #-- Fraction of "bad" customers among the arrivals (in [0,1] range)
 fracBad=0.2
-dAcceptable=0.75
+dAcceptable=0.6
 
-policy=PX
+policy=P0
 
 #-- One or more screening profiles. They should be listed in the order
 #-- of increasing detection rate and decreasing average processing time.

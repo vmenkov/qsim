@@ -17,7 +17,7 @@ lanes.
 "bracketing" profiles (the "lower" or "Faster" one with d &le;
 dAcceptable, and the "higher"  or "Slower" one with d &ge; dAcceptable)
 are identified in each group of "identically equipped lanes". A real
-value f is computer as the fraction of customers that would need to be
+value f is computed as the fraction of customers that would need to be
 processed by the higher profile in order for the average notional
 detection rate to be equal to dAcceptable,
 
